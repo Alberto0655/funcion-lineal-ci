@@ -4,7 +4,7 @@ from funcion_lineal import funcion_lineal
 
 
 def test_caso_correcto():
-    assert funcion_lineal(2, 3, 4) == 999
+    assert funcion_lineal(2, 3, 4) == 10
 
 
 def test_caso_limite():
