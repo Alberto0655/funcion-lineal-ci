@@ -24,5 +24,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Verificar archivos
+        run: |
+          pwd
+          ls -la
+          ls -la tests
+
       - name: Ejecutar pruebas
-        run: pytest -v
+        run: python -m pytest -v
