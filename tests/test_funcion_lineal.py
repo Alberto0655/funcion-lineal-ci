@@ -2,7 +2,6 @@
 import pytest
 from funcion_lineal import funcion_lineal
 
-
 def test_caso_correcto():
     assert funcion_lineal(2, 3, 4) == 10
 
@@ -23,3 +22,6 @@ def test_entrada_incorrecta():
 def test_valor_no_finito():
     with pytest.raises(ValueError):
         funcion_lineal(float("nan"), 3, 4)
+        
+def test_funcion_lineal():
+    assert funcion_lineal(2, 3, 4) == 10
