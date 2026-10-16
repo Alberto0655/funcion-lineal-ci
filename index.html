@@ -1,11 +1,360 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mi Calculadora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculadora {
+            width: 330px;
+            max-width: 100%;
+            padding: 22px;
+            background: #1c1c28;
+            border-radius: 22px;
+            box-shadow: 0 15px 40px #0006;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        #pantalla {
+            width: 100%;
+            height: 80px;
+            background: #101018;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            text-align: right;
+            padding: 15px;
+            font-size: 32px;
+            margin-bottom: 18px;
+            outline: none;
+        }
+
+        .botones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 58px;
+            border: none;
+            border-radius: 12px;
+            font-size: 21px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #303044;
+            color: white;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            filter: brightness(1.3);
+            transform: scale(1.04);
+        }
+
+        .operador {
+            background: #ff9f43;
+            color: #171717;
+        }
+
+        .limpiar {
+            background: #e74c3c;
+        }
+
+        .igual {
+            background: #2ecc71;
+            color: #102518;
+            grid-row: span 2;
+            height: 126px;
+        }
+
+        .cero {
+            grid-column: span 2;
+        }
+
+        footer {
+            text-align: center;
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 18px;
+        }
+        
+        .funcion {
+            margin-top: 22px;
+            padding: 16px;
+            background: #29293b;
+            border-radius: 14px;
+            color: white;
+        }
+
+        .funcion h2 {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .funcion p {
+            text-align: center;
+            color: #ffb454;
+            margin-bottom: 14px;
+            font-size: 18px;
+        }
+
+        .funcion label {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .funcion input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #50506a;
+            border-radius: 8px;
+            background: #171722;
+            color: white;
+            font-size: 16px;
+        }
+
+        .funcion button {
+            width: 100%;
+            height: 45px;
+            margin-top: 14px;
+            background: #2ecc71;
+            color: #102518;
+            font-size: 16px;
+        }
+
+        #resultadoFuncion {
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #171722;
+            color: #2ecc71;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Hola</h1>
+    <main class="calculadora">
+        <h1>Mi Calculadora</h1>
+
+        <input
+            type="text"
+            id="pantalla"
+            value="0"
+            readonly
+            aria-label="Resultado de la calculadora"
+        >
+
+        <div class="botones">
+            <button class="limpiar" onclick="limpiar()">AC</button>
+            <button onclick="borrar()">⌫</button>
+            <button class="operador" onclick="porcentaje()">%</button>
+            <button class="operador" onclick="operar('/')">÷</button>
+
+            <button onclick="agregar('7')">7</button>
+            <button onclick="agregar('8')">8</button>
+            <button onclick="agregar('9')">9</button>
+            <button class="operador" onclick="operar('*')">×</button>
+
+            <button onclick="agregar('4')">4</button>
+            <button onclick="agregar('5')">5</button>
+            <button onclick="agregar('6')">6</button>
+            <button class="operador" onclick="operar('-')">−</button>
+
+            <button onclick="agregar('1')">1</button>
+            <button onclick="agregar('2')">2</button>
+            <button onclick="agregar('3')">3</button>
+            <button class="operador" onclick="operar('+')">+</button>
+
+            <button class="cero" onclick="agregar('0')">0</button>
+            <button onclick="agregar('.')">.</button>
+            <button class="igual" onclick="calcular()">=</button>
+        </div>
+
+        <section class="funcion">
+            <h2>Función lineal</h2>
+            <p>f(x) = m · x + b</p>
+
+            <label for="valorM">Valor de m (pendiente):</label>
+            <input type="number" id="valorM" step="any" value="2">
+
+            <label for="valorX">Valor de x:</label>
+            <input type="number" id="valorX" step="any" value="3">
+
+            <label for="valorB">Valor de b (intersección):</label>
+            <input type="number" id="valorB" step="any" value="4">
+
+            <button type="button" onclick="calcularFuncion()">
+                Calcular f(x)
+            </button>
+
+            <div id="resultadoFuncion" aria-live="polite">
+                Resultado: 10
+            </div>
+        </section>
+
+        <footer>Calculadora web · HTML, CSS y JavaScript</footer>
+
+    </main>
+
+    <script>
+        const pantalla = document.getElementById("pantalla");
+
+        let actual = "0";
+        let anterior = null;
+        let operador = null;
+        let nuevoNumero = false;
+
+        function mostrar() {
+            pantalla.value = actual;
+        }
+
+        function agregar(valor) {
+            if (actual === "Error") limpiar();
+
+            if (nuevoNumero) {
+                actual = valor === "." ? "0." : valor;
+                nuevoNumero = false;
+            } else if (valor === ".") {
+                if (!actual.includes(".")) actual += ".";
+            } else {
+                actual = actual === "0"
+                    ? valor
+                    : actual + valor;
+            }
+
+            mostrar();
+        }
+
+        function operar(op) {
+            if (actual === "Error") return;
+
+            if (operador && !nuevoNumero) {
+                calcular();
+            }
+
+            anterior = Number(actual);
+            operador = op;
+            nuevoNumero = true;
+        }
+
+        function calcular() {
+            if (operador === null || anterior === null) return;
+
+            const segundo = Number(actual);
+            let resultado;
+
+            switch (operador) {
+                case "+":
+                    resultado = anterior + segundo;
+                    break;
+                case "-":
+                    resultado = anterior - segundo;
+                    break;
+                case "*":
+                    resultado = anterior * segundo;
+                    break;
+                case "/":
+                    if (segundo === 0) {
+                        actual = "Error";
+                        anterior = null;
+                        operador = null;
+                        nuevoNumero = true;
+                        mostrar();
+                        return;
+                    }
+                    resultado = anterior / segundo;
+                    break;
+            }
+
+            actual = String(
+                Number(resultado.toPrecision(12))
+            );
+
+            anterior = null;
+            operador = null;
+            nuevoNumero = true;
+            mostrar();
+        }
+
+        function limpiar() {
+            actual = "0";
+            anterior = null;
+            operador = null;
+            nuevoNumero = false;
+            mostrar();
+        }
+
+        function borrar() {
+            if (nuevoNumero || actual === "Error") {
+                actual = "0";
+                nuevoNumero = false;
+            } else {
+                actual = actual.length > 1
+                    ? actual.slice(0, -1)
+                    : "0";
+
+                if (actual === "-") actual = "0";
+            }
+
+            mostrar();
+        }
+
+        function porcentaje() {
+            if (actual !== "Error") {
+                actual = String(Number(actual) / 100);
+                mostrar();
+            }
+        }
+        
+        function calcularFuncion() {
+            const m = document.getElementById("valorM").value;
+            const x = document.getElementById("valorX").value;
+            const b = document.getElementById("valorB").value;
+            const salida = document.getElementById("resultadoFuncion");
+
+            if (m.trim() === "" || x.trim() === "" || b.trim() === "") {
+                salida.textContent = "Ingresa los valores de m, x y b.";
+                return;
+            }
+
+            const resultado = Number(m) * Number(x) + Number(b);
+
+            salida.textContent = "f(" + x + ") = " + Number(m) +
+                " × " + Number(x) + " + " + Number(b) +
+                " = " + Number(resultado.toPrecision(12));
+        }
+
+    </script>
 </body>
 </html>
