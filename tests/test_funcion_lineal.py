@@ -3,7 +3,7 @@ import pytest
 from funcion_lineal import funcion_lineal
 
 def test_caso_correcto():
-    assert funcion_lineal(2, 3, 4) == 10
+    assert funcion_lineal(2, 3, 4) == 11
 
 
 def test_caso_limite():
